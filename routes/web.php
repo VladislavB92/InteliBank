@@ -12,4 +12,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
     return view('dashboard');
 })->name('dashboard');
 
-
+Route::get('/', 'AccountsController@index')
+    ->name('dashboard');

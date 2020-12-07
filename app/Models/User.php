@@ -27,9 +27,10 @@ class User extends Authenticatable
         'password',
     ];
 
+
     public function accounts()
     {
-        $this->hasMany(Account::class, 'name', 'name');
+        return $this->belongsTo(Account::class, 'account_holder', 'name');
     }
 
     /**

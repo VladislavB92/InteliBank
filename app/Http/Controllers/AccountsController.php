@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Account;
 
 class AccountsController extends Controller
 {
@@ -11,16 +12,17 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Account $account)
     {
-        //
+        $account->load('user');
+        $account->user();
+        $user = auth()->user();
+
+        return view('dashboard', [
+            'accounts' => (new Account)->where('account_holder', $user->name)->get()
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
@@ -43,7 +45,7 @@ class AccountsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Account $account)
     {
         //
     }
