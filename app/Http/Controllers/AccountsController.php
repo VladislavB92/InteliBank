@@ -8,15 +8,13 @@ use App\Models\User;
 
 class AccountsController extends Controller
 {
-    public function index(User $user)
+    public function index()
     {
-        $user->load('accounts');
-        $user->accounts();
-        
         $user = auth()->user();
-        $loggedUserAccounts = $user->accounts;
 
-        return view('user.account.all', ['accounts' => $loggedUserAccounts]);
+        $accounts = (new Account)->where('account_holder', $user->name)->get();
+        
+        return view('user.account.all', ['accounts' => $accounts]);
     }
 
     public function create()
@@ -29,15 +27,11 @@ class AccountsController extends Controller
         //
     }
 
-    public function show(User $user)
+    public function show(Account $account)
     {
-        $user->load('accounts');
-        $user->accounts();
+        $this->authorize('show', $account);
 
-        $user = auth()->user();
-        $loggedUserAccounts = $user->accounts;
-
-        return view('user.account.details', ['account' => $loggedUserAccounts]);
+        return view('user.account.details', ['account' => $account]);
     }
 
     public function edit($id)
