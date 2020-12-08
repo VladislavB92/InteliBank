@@ -16,11 +16,6 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'email',
@@ -30,14 +25,9 @@ class User extends Authenticatable
 
     public function accounts()
     {
-        return $this->belongsTo(Account::class, 'account_holder', 'name');
+        return $this->hasMany(Account::class, 'account_holder', 'name');
     }
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -45,12 +35,8 @@ class User extends Authenticatable
         'two_factor_secret'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 }

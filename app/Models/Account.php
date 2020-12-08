@@ -14,11 +14,11 @@ class Account extends Model
         'account_holder',
         'account_number',
         'currency',
-        'ammount'
+        'amount'
     ];
 
     public function user()
     {
-        return $this->hasOne(User::class, 'name', 'account_holder');
+        $this->belongsTo(User::class, 'account_holder', 'name');
     }
 }
