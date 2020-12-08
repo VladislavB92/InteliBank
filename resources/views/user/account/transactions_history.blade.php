@@ -9,7 +9,7 @@
     <link href="/Users/vlad/Desktop/Projects/InteliBank/public/css/app.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
@@ -18,7 +18,7 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Welcome back, ') }}{{ auth()->user()->name }}!
+                {{ __('Transactions history') }}
             </h2>
         </x-slot>
 
@@ -27,19 +27,15 @@
                 <table id="example">
                     <thead>
                         <tr>
-                            <th data-priority="1">Account number</th>
-                            <th data-priority="2">Currency</th>
-                            <th data-priority="3">Amount</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($accounts as $account)
+
                         <tr>
-                            <td><a href="{{ route('details', ['account' => $account]) }}">{{ $account->account_number }}</a></td>
-                            <td>{{ $account->currency }}</td>
-                            <td>{{ $account->amount }}</td>
+
                         </tr>
-                        @endforeach
+
                     </tbody>
                 </table>
             </div>
@@ -53,6 +49,7 @@
             $(document).ready(function() {
                 let table = $('#example').DataTable({
                     responsive: true
+                    , dom: 'Blfrtip'
                 }).columns.adjust().responsive.recalc();
             });
 

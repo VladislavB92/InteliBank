@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Account;
+use App\Models\Transaction;
 
 class User extends Authenticatable
 {
@@ -26,6 +27,11 @@ class User extends Authenticatable
     public function accounts()
     {
         return $this->hasMany(Account::class, 'account_holder', 'name');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'sender_name', 'name');
     }
 
     protected $hidden = [

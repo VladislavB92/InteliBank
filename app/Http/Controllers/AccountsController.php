@@ -12,6 +12,7 @@ class AccountsController extends Controller
     {
         $user->load('accounts');
         $user->accounts();
+        
         $user = auth()->user();
         $loggedUserAccounts = $user->accounts;
 
@@ -28,12 +29,15 @@ class AccountsController extends Controller
         //
     }
 
-    public function show(Account $account, User $user)
+    public function show(User $user)
     {
         $user->load('accounts');
         $user->accounts();
 
-        return view('user.account.details', ['account' => $account]);
+        $user = auth()->user();
+        $loggedUserAccounts = $user->accounts;
+
+        return view('user.account.details', ['account' => $loggedUserAccounts]);
     }
 
     public function edit($id)
