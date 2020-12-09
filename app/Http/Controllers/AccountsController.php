@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Models\User;
+use App\Models\Transaction;
 
 class AccountsController extends Controller
 {
@@ -19,15 +20,11 @@ class AccountsController extends Controller
 
     public function create()
     {
-        //
     }
 
     public function store(Request $request, Account $account)
     {
-        $account = (new Account)->fill($request->all());
-        $account->save();
-
-        return redirect()->route('all');
+      
     }
 
     public function show(Account $account)
@@ -50,24 +47,25 @@ class AccountsController extends Controller
     public function update(Request $request, Account $account)
     {
         $this->authorize('update', $account);
-        
+
         $paymentData = $request->post();
         $recipientsName = $paymentData['account_holder'];
         $accountNumber = $paymentData['account_number'];
-        $amount = $paymentData['amount'];
 
         $account
-        ->where(['account_holder' => $recipientsName, 'account_number' => $accountNumber])
-        ->increment('amount', $amount);
+            ->where(['account_holder' => $recipientsName, 'account_number' => $accountNumber])
+            ->increment('amount', $paymentData['amount']);
 
         $account
-        ->decrement('amount', $amount);
+            ->decrement('amount', $paymentData['amount']);
+
+        
 
         return redirect()->route('accounts.show', $account);
     }
 
     public function destroy($id)
     {
-        //
+        
     }
 }

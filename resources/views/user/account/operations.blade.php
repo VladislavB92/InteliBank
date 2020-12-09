@@ -6,6 +6,11 @@
     </x-slot>
 
     <div class="container w-full md:w-5/5 xl:w-5/5 mx-auto px-2">
+        <div>
+            <h1>Account holder: {{ $account->account_holder }}</h1>
+            <h2>Account number: {{ $account->account_number }}</h2>
+            <h2>Avalaible account balance: {{ $account->currency }} {{ $account->amount }}</h2>
+        </div><br>
         <form method="post" action="{{ route('accounts.update', ['account' => $account]) }}">
             @csrf
             @method('PUT')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Transaction;
 
 class TransactionsController extends Controller
 {
@@ -16,9 +17,11 @@ class TransactionsController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Transaction $transaction)
     {
-        //
+        $transaction = (new Transaction)->fill($request->all());
+
+        
     }
 
     public function show($id)
