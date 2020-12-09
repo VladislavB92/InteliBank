@@ -13,7 +13,7 @@ class AccountsController extends Controller
         $user = auth()->user();
 
         $accounts = (new Account)->where('account_holder', $user->name)->get();
-        
+
         return view('user.account.all', ['accounts' => $accounts]);
     }
 
@@ -22,26 +22,48 @@ class AccountsController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Account $account)
     {
-        //
+        $account = (new Account)->fill($request->all());
+        $account->save();
+
+        return redirect()->route('all');
     }
 
     public function show(Account $account)
     {
         $this->authorize('show', $account);
 
+        $account->load('transactions');
+        $account->transactions();
+
         return view('user.account.details', ['account' => $account]);
     }
 
-    public function edit($id)
+    public function edit(Account $account)
     {
-        //
+        $this->authorize('edit', $account);
+
+        return view('user.account.operations', ['account' => $account]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Account $account)
     {
-        //
+        $this->authorize('update', $account);
+        
+        $paymentData = $request->post();
+        $recipientsName = $paymentData['account_holder'];
+        $accountNumber = $paymentData['account_number'];
+        $amount = $paymentData['amount'];
+
+        $account
+        ->where(['account_holder' => $recipientsName, 'account_number' => $accountNumber])
+        ->increment('amount', $amount);
+
+        $account
+        ->decrement('amount', $amount);
+
+        return redirect()->route('accounts.show', $account);
     }
 
     public function destroy($id)

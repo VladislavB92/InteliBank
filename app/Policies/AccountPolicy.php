@@ -12,7 +12,16 @@ class AccountPolicy
 
     public function show(User $user, Account $account)
     {
+        return auth()->user()->name === $account->account_holder;
+    }
 
+    public function edit(User $user, Account $account)
+    {
+        return auth()->user()->name === $account->account_holder;
+    }
+
+    public function update(User $user, Account $account)
+    {
         return auth()->user()->name === $account->account_holder;
     }
 }

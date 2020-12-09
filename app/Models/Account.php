@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Transaction;
 
 class Account extends Model
 {
@@ -19,6 +20,11 @@ class Account extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class, 'account_holder', 'name');
+        return $this->belongsTo(User::class, 'account_holder', 'name');
+    }
+
+   public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'senders_account', 'account_number');
     }
 }

@@ -23,15 +23,9 @@ class User extends Authenticatable
         'password',
     ];
 
-
     public function accounts()
     {
         return $this->hasMany(Account::class, 'account_holder', 'name');
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class, 'sender_name', 'name');
     }
 
     protected $hidden = [
