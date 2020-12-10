@@ -42,7 +42,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($account->transactions as $transaction)
+                        @foreach($account->outgoingTransaction as $transaction)
                         <tr>
                             <td>{{ $transaction->id }}</td>
                             <td>{{ $transaction->senders_name }}</td>

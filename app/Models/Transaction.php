@@ -14,7 +14,7 @@ class Transaction extends Model
         'senders_name',
         'senders_account',
         'senders_account_currency',
-        'ammount',
+        'amount',
         'recipients_name',
         'recipients_account',
         'recipients_account_currency'

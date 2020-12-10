@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Http\Controllers\TransactionsController;
+use App\Events\PaymentMade;
 
 class AccountsController extends Controller
 {
@@ -24,15 +26,14 @@ class AccountsController extends Controller
 
     public function store(Request $request, Account $account)
     {
-      
     }
 
     public function show(Account $account)
     {
         $this->authorize('show', $account);
 
-        $account->load('transactions');
-        $account->transactions();
+        $account->load('outgoingTransaction');
+        $account->outgoingTransaction();
 
         return view('user.account.details', ['account' => $account]);
     }
@@ -59,11 +60,13 @@ class AccountsController extends Controller
         $account
             ->decrement('amount', $paymentData['amount']);
 
-        return redirect()->route('details', $account);
+        event(new PaymentMade($account, $request));
+
+
+        return view('user.account.details', ['account' => $account]);
     }
 
     public function destroy($id)
     {
-        
     }
 }

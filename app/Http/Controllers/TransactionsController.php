@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use App\Events\PaymentMade;
+use App\Http\Controllers\AccountsController;
 
 class TransactionsController extends Controller
 {
@@ -19,15 +21,13 @@ class TransactionsController extends Controller
 
     public function store(Request $request, Transaction $transaction)
     {
-       // $transaction = (new Transaction)->fill($request->all());
-       sleep(2);
-        return view('user.account.details');
-        
+       
+
     }
 
     public function show()
     {
-        return view('user.account.confirmation');
+        
     }
 
     public function edit($id)
