@@ -59,9 +59,7 @@ class AccountsController extends Controller
         $account
             ->decrement('amount', $paymentData['amount']);
 
-        
-
-        return redirect()->route('accounts.show', $account);
+        return redirect()->route('details', $account);
     }
 
     public function destroy($id)

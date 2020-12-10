@@ -25,7 +25,7 @@
             <h1>Account holder: {{ $account->account_holder }}</h1>
             <h2>Account number: {{ $account->account_number }}</h2>
             <h2>Avalaible account balance: {{ $account->currency }} {{ $account->amount }}</h2>
-            <a href="{{ route('accounts.edit', ['account' => $account]) }}">Make payment</a>
+            <a href="{{ route('payment', ['account' => $account]) }}">Make payment</a>
             <div id='recipients' class="block md:flex items-center justify-between">
                 <table id="example">
                     <thead>

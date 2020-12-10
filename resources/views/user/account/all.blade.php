@@ -35,7 +35,7 @@
                     <tbody>
                         @foreach($accounts as $account)
                         <tr>
-                            <td><a href="{{ route('accounts.show', ['account' => $account]) }}">{{ $account->account_number }}</a></td>
+                            <td><a href="{{ route('details', ['account' => $account]) }}">{{ $account->account_number }}</a></td>
                             <td>{{ $account->currency }}</td>
                             <td>{{ $account->amount }}</td>
                         </tr>

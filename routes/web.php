@@ -23,3 +23,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('/accounts', 'AccountsController@index')
     ->middleware('auth')
     ->name('all');
+
+Route::get('/accounts/{account:account_number}', 'AccountsController@show')
+    ->middleware('auth')
+    ->name('details');
+
+    Route::get('/accounts/{account:account_number}/payment', 'AccountsController@edit')
+    ->middleware('auth')
+    ->name('payment');

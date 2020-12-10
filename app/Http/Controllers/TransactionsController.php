@@ -19,14 +19,15 @@ class TransactionsController extends Controller
 
     public function store(Request $request, Transaction $transaction)
     {
-        $transaction = (new Transaction)->fill($request->all());
-
+       // $transaction = (new Transaction)->fill($request->all());
+       sleep(2);
+        return view('user.account.details');
         
     }
 
-    public function show($id)
+    public function show()
     {
-        //
+        return view('user.account.confirmation');
     }
 
     public function edit($id)
