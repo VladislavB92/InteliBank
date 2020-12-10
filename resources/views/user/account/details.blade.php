@@ -31,20 +31,44 @@
                     <thead>
                         <tr>
                             <th data-priority="1">Transaction ID</th>
-                            <th data-priority="2">Senders name</th>
-                            <th data-priority="3">Senders account</th>
-                            <th data-priority="4">Senders account currency</th>
-                            <th data-priority="5">Amount</th>
-                            <th data-priority="6">Recipients name</th>
-                            <th data-priority="7">Recipients account</th>
-                            <th data-priority="8">Recipients account currency</th>
-                            <th data-priority="9">Date of transaction</th>
+                            <th data-priority="2">Type</th>
+                            <th data-priority="3">Senders name</th>
+                            <th data-priority="4">Senders account</th>
+                            <th data-priority="5">Senders account currency</th>
+                            <th data-priority="6">Amount</th>
+                            <th data-priority="7">Recipients name</th>
+                            <th data-priority="8">Recipients account</th>
+                            <th data-priority="9">Recipients account currency</th>
+                            <th data-priority="10">Date of transaction</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($account->outgoingTransaction as $transaction)
                         <tr>
                             <td>{{ $transaction->id }}</td>
+                            <td>@if($loggedUser == $transaction->senders_name)
+                                Outgoing payment
+                                @elseif($loggedUser == $transaction->recipients_name)
+                                Incoming payment
+                                @endif</td>
+                            <td>{{ $transaction->senders_name }}</td>
+                            <td>{{ $transaction->senders_account }}</td>
+                            <td>{{ $transaction->senders_account_currency }}</td>
+                            <td>{{ $transaction->amount }}</td>
+                            <td>{{ $transaction->recipients_name }}</td>
+                            <td>{{ $transaction->recipients_account }}</td>
+                            <td>{{ $transaction->recipients_account_currency }}</td>
+                            <td>{{ $transaction->created_at }}</td>
+                        </tr>
+                        @endforeach
+                        @foreach($account->incomingTransaction as $transaction)
+                        <tr>
+                            <td>{{ $transaction->id }}</td>
+                            <td>@if($loggedUser == $transaction->senders_name)
+                                Outgoing payment
+                                @elseif($loggedUser == $transaction->recipients_name)
+                                Incoming payment
+                                @endif</td>
                             <td>{{ $transaction->senders_name }}</td>
                             <td>{{ $transaction->senders_account }}</td>
                             <td>{{ $transaction->senders_account_currency }}</td>

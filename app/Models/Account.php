@@ -23,8 +23,21 @@ class Account extends Model
         return $this->belongsTo(User::class, 'account_holder', 'name');
     }
 
-   public function outgoingTransaction()
+    public function outgoingTransaction()
     {
-        return $this->hasMany(Transaction::class, 'senders_account', 'account_number');
+        return $this->hasMany(
+            Transaction::class,
+            'senders_account',
+            'account_number'
+        );
+    }
+
+    public function incomingTransaction()
+    {
+        return $this->hasMany(
+            Transaction::class,
+            'recipients_account',
+            'account_number'
+        );
     }
 }

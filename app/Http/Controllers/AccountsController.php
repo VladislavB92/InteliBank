@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Account;
-use App\Models\User;
-use App\Models\Transaction;
-use App\Http\Controllers\TransactionsController;
 use App\Events\PaymentMade;
 
 class AccountsController extends Controller
@@ -35,7 +32,12 @@ class AccountsController extends Controller
         $account->load('outgoingTransaction');
         $account->outgoingTransaction();
 
-        return view('user.account.details', ['account' => $account]);
+        $account->load('incomingTransaction');
+        $account->incomingTransaction();
+
+        $loggedUser = auth()->user()->name;
+
+        return view('user.account.details', ['account' => $account, 'loggedUser' => $loggedUser]);
     }
 
     public function edit(Account $account)
@@ -60,10 +62,11 @@ class AccountsController extends Controller
         $account
             ->decrement('amount', $paymentData['amount']);
 
+        $loggedUser = auth()->user()->name;
+
         event(new PaymentMade($account, $request));
 
-
-        return view('user.account.details', ['account' => $account]);
+        return view('user.account.details', ['account' => $account, 'loggedUser' => $loggedUser]);
     }
 
     public function destroy($id)

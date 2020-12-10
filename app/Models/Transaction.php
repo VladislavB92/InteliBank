@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Account;
 
 class Transaction extends Model
 {
@@ -19,9 +18,4 @@ class Transaction extends Model
         'recipients_account',
         'recipients_account_currency'
     ];
-
-    public function account()
-    {
-        return $this->belongsTo(Account::class, 'account_number', 'senders_account');
-    }
 }
