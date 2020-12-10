@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
-use App\Events\PaymentMade;
-use App\Http\Controllers\AccountsController;
 
 class TransactionsController extends Controller
 {

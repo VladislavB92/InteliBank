@@ -18,7 +18,6 @@ class StoreTransaction
             ->where('account_number', $recipientsData['account_number'])
             ->get();
 
-
         $transactionData = [
             'senders_name' => $sendersData->account_holder,
             'senders_account' => $sendersData->account_number,

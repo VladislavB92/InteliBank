@@ -9,7 +9,7 @@
     <link href="/Users/vlad/Desktop/Projects/InteliBank/public/css/app.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet" >
+    <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
@@ -37,7 +37,7 @@
                         <tr>
                             <td><a href="{{ route('details', ['account' => $account]) }}">{{ $account->account_number }}</a></td>
                             <td>{{ $account->currency }}</td>
-                            <td>{{ $account->amount }}</td>
+                            <td>{{ round( (float) $account->amount, 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>

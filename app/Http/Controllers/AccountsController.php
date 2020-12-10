@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Events\PaymentMade;
+use App\Repositories\CurrenciesRepository;
 
 class AccountsController extends Controller
 {
+    public $currenciesRepository;
+
+    public function __construct(CurrenciesRepository $currenciesRepository)
+    {
+        $this->middleware('auth');
+        $this->currenciesRepository = $currenciesRepository;
+    }
+
     public function index()
     {
         $user = auth()->user();
@@ -50,19 +59,32 @@ class AccountsController extends Controller
     public function update(Request $request, Account $account)
     {
         $this->authorize('update', $account);
+        $loggedUser = auth()->user()->name;
 
         $paymentData = $request->post();
+
+        $sendersAccountCurrency = $account->currency;
+
         $recipientsName = $paymentData['account_holder'];
-        $accountNumber = $paymentData['account_number'];
+        $recipientsAccountNumber = $paymentData['account_number'];
+
+        $recipientsAccountCurrency = $account
+            ->select('currency')
+            ->where('account_number',  $recipientsAccountNumber)
+            ->get()[0]->currency;
+
+        if ($sendersAccountCurrency !== $recipientsAccountCurrency) {
+            $convertedAmount =
+                $paymentData['amount'] *
+                $this->currenciesRepository->getBySymbol($recipientsAccountCurrency);
+        }
 
         $account
-            ->where(['account_holder' => $recipientsName, 'account_number' => $accountNumber])
-            ->increment('amount', $paymentData['amount']);
+            ->where(['account_holder' => $recipientsName, 'account_number' => $recipientsAccountNumber])
+            ->increment('amount', $convertedAmount);
 
         $account
             ->decrement('amount', $paymentData['amount']);
-
-        $loggedUser = auth()->user()->name;
 
         event(new PaymentMade($account, $request));
 
