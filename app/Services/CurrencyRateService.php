@@ -21,7 +21,12 @@ class CurrencyRateService
 
         foreach ($data as $currencyData) {
 
-            Currency::updateOrCreate(['bank' => 'LB', 'currency' => $currencyData['ID']], ['rate' => $currencyData['Rate']]);
+            Currency::updateOrCreate([
+                'bank' => 'LB',
+                'currency' => $currencyData['ID']
+            ], [
+                'rate' => $currencyData['Rate']
+            ]);
         }
 
         return $exchangeRates;

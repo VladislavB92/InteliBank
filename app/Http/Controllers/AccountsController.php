@@ -10,12 +10,14 @@ use App\Services\CurrencyRateService;
 
 class AccountsController extends Controller
 {
-    public $currenciesRepository;
+    public LocalRepository $currenciesRepository;
+    public CurrencyRateService $currencyRateService;
 
     public function __construct(LocalRepository $currenciesRepository)
     {
         $this->middleware('auth');
         $this->currenciesRepository = $currenciesRepository;
+        $this->currencyRateService = new CurrencyRateService();
     }
 
     public function index()
@@ -24,18 +26,9 @@ class AccountsController extends Controller
 
         $accounts = (new Account)->where('account_holder', $user->name)->get();
 
-        $currencyRate = new CurrencyRateService();
-        $currencyRate->execute();
+        $this->currencyRateService->execute();
 
         return view('user.account.all', ['accounts' => $accounts]);
-    }
-
-    public function create()
-    {
-    }
-
-    public function store(Request $request, Account $account)
-    {
     }
 
     public function show(Account $account)
@@ -93,9 +86,5 @@ class AccountsController extends Controller
         event(new PaymentMade($account, $request));
 
         return view('user.account.details', ['account' => $account, 'loggedUser' => $loggedUser]);
-    }
-
-    public function destroy($id)
-    {
     }
 }
