@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\CurrenciesRepository;
-use App\Repositories\LBRepository;
+use App\Repositories\LocalRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +15,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->app->bind(CurrenciesRepository::class, LBRepository::class);
+        $this->app->bind(CurrenciesRepository::class, LocalRepository::class);
     }
 }

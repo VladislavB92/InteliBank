@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Events\PaymentMade;
-use App\Repositories\CurrenciesRepository;
+use App\Repositories\LocalRepository;
+use App\Services\CurrencyRateService;
 
 class AccountsController extends Controller
 {
-    public $currenciesRepository;
+    // public $currenciesRepository;
 
-    public function __construct(CurrenciesRepository $currenciesRepository)
+    public function __construct(LocalRepository $currenciesRepository)
     {
         $this->middleware('auth');
-        $this->currenciesRepository = $currenciesRepository;
+        // $this->currenciesRepository = $currenciesRepository;
     }
 
     public function index()
@@ -22,6 +23,9 @@ class AccountsController extends Controller
         $user = auth()->user();
 
         $accounts = (new Account)->where('account_holder', $user->name)->get();
+
+        $currencyRate = new CurrencyRateService();
+        $currencyRate->execute();
 
         return view('user.account.all', ['accounts' => $accounts]);
     }
@@ -75,8 +79,8 @@ class AccountsController extends Controller
 
         if ($sendersAccountCurrency !== $recipientsAccountCurrency) {
             $convertedAmount =
-                $paymentData['amount'] *
-                $this->currenciesRepository->getBySymbol($recipientsAccountCurrency);
+                $paymentData['amount'] /
+                $this->currenciesRepository->getBySymbol($sendersAccountCurrency);
         }
 
         $account

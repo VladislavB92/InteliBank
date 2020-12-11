@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Repositories;
+
 use App\Models\Currency;
+use Illuminate\Database\Eloquent\Collection;
 
 interface CurrenciesRepository
 {
-    public function getBySymbol(string $symbol): float;
+    public function getAll(): Collection;
 }
