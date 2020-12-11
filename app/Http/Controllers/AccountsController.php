@@ -10,12 +10,12 @@ use App\Services\CurrencyRateService;
 
 class AccountsController extends Controller
 {
-    // public $currenciesRepository;
+    public $currenciesRepository;
 
     public function __construct(LocalRepository $currenciesRepository)
     {
         $this->middleware('auth');
-        // $this->currenciesRepository = $currenciesRepository;
+        $this->currenciesRepository = $currenciesRepository;
     }
 
     public function index()

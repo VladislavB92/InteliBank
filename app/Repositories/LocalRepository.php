@@ -3,12 +3,17 @@
 namespace App\Repositories;
 
 use App\Models\Currency;
-use Illuminate\Database\Eloquent\Collection;
 
 class LocalRepository
 {
     function getAll()
     {
         return Currency::all();
+    }
+
+    function getBySymbol(string $symbol)
+    {
+        $currency = Currency::all();
+        return $currency->find($symbol)->rate;
     }
 }
