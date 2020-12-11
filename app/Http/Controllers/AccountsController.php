@@ -26,8 +26,6 @@ class AccountsController extends Controller
 
         $accounts = (new Account)->where('account_holder', $user->name)->get();
 
-        $this->currencyRateService->execute();
-
         return view('user.account.all', ['accounts' => $accounts]);
     }
 
