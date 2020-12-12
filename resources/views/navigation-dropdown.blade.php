@@ -16,6 +16,9 @@
                     <x-jet-nav-link href="{{ route('all') }}">
                         {{ __('Your accounts') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="">
+                        {{ __('Exchange rates') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 
