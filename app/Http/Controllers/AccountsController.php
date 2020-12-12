@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Events\TransactionSaved;
 use App\Repositories\LocalRepository;
-use App\Services\CurrencyRateService;
 use App\Events\PaymentMade;
 
 class AccountsController extends Controller
@@ -37,7 +36,7 @@ class AccountsController extends Controller
         $account->incomingTransaction();
 
         $loggedUser = auth()->user()->name;
-        
+
         return view('user.account.details', ['account' => $account, 'loggedUser' => $loggedUser]);
     }
 

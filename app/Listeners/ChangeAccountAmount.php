@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\PaymentMade;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use App\Repositories\LocalRepository;
 
 class ChangeAccountAmount
@@ -28,7 +26,7 @@ class ChangeAccountAmount
         if ($sendersAccountCurrency === $recipientsData['currency']) {
 
             $convertedAmount = $recipientsData['amount'];
-            
+
         } elseif ($sendersAccountCurrency !== $recipientsData['currency'] && $sendersAccountCurrency === 'EUR') {
 
             $convertedAmount =
