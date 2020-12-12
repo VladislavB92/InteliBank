@@ -29,7 +29,9 @@
             <h1>Account holder: {{ $account->account_holder }}</h1>
             <h2>Account number: {{ $account->account_number }}</h2>
             <h2>Avalaible account balance: {{ $account->currency }} {{ sprintf("%.2f", $account->amount) }}</h2>
-            <a href="{{ route('payment', ['account' => $account]) }}">Make payment</a>
+            <button class="border border-gray-700 bg-gray-700 text-white rounded-md px-4 py-2 m-2 
+            transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
+            onclick="window.location.href='{{ route('payment', ['account' => $account]) }}'">Make payment</button>
             <div id='recipients' class="block md:flex items-center justify-between">
                 <table id="example">
                     <thead>

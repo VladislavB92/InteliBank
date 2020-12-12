@@ -29,14 +29,19 @@
                 <input type="hidden" class="form-control" id="account_number" name="account_number" value={{ $paymentData['account_number'] }}>
                 <input type="hidden" class="form-control" id="amount" name="amount" value={{ sprintf("%.2f", $paymentData['amount']) }}>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary" onclick="clicked(event)">CONFIRM</button>
+                    <button type="submit" class="border border-teal-500 bg-teal-500 text-white rounded-md 
+                    px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 
+                    focus:outline-none focus:shadow-outline" onclick="clicked(event)">CONFIRM AND SEND</button>
                 </div>
         </form>
     </div>
-
-    <a href="{{ route('accounts.edit', ['account' => $account]) }}" class="btn btn-primary btn-sm">
-        Edit
-    </a>
+    <button class="border border-yellow-500 bg-yellow-500 text-white 
+    rounded-md px-4 py-2 m-2 transition duration-500 ease select-none 
+    hover:bg-yellow-600 focus:outline-none focus:shadow-outline" 
+    onclick="window.location.href='{{ route('accounts.edit', ['account' => $account]) }}'">Edit</button>
+    <button class="border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 
+    transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" 
+    onclick="window.location.href='{{ route('all') }}'">Cancel payment</button>
 
     <script>
         function clicked(e) {
