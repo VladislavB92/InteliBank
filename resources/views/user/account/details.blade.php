@@ -33,10 +33,10 @@
             transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
             onclick="window.location.href='{{ route('payment', ['account' => $account]) }}'">Make payment</button>
             <div id='recipients' class="block md:flex items-center justify-between">
-                <table id="example">
+                <table id="example" class="table-auto">
                     <thead>
                         <tr>
-                            <th data-priority="1">Transaction ID</th>
+                            <th data-priority="1" class="w-1/4">ID</th>
                             <th data-priority="2">Type</th>
                             <th data-priority="3">Senders name</th>
                             <th data-priority="4">Senders account</th>
