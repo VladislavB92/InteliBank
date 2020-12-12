@@ -12,9 +12,7 @@ Route::get('/accounts', function () {
     return view('all');
 })->middleware('auth');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', 'accounts');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

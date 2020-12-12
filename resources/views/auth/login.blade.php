@@ -2,6 +2,7 @@
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-jet-authentication-card-logo />
+            <h1 style="text-align: center; font-size: 300%;">InteliBank</h1>
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
