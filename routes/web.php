@@ -8,8 +8,8 @@ Route::resource('accounts', 'AccountsController')
 Route::resource('transactions', 'TransactionsController')
     ->middleware(['auth']);
 
-Route::get('/welcome', function () {
-    return view('welcome');
+Route::get('/accounts', function () {
+    return view('all');
 })->middleware('auth');
 
 Route::get('/', function () {

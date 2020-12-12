@@ -20,7 +20,11 @@
                 {{ __('Account overview for ') }}{{ $account->account_number }}
             </h2>
         </x-slot>
-
+        @if(session()->has('message'))
+        <div class="alert alert-success">
+            {{ session()->get('message') }}
+        </div>
+        @endif
         <div class="container w-full md:w-5/5 xl:w-5/5 mx-auto px-2">
             <h1>Account holder: {{ $account->account_holder }}</h1>
             <h2>Account number: {{ $account->account_number }}</h2>
