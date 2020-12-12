@@ -17,10 +17,14 @@
             <div class="form-group">
                 <label for="name">Recipient's name</label>
                 <input type="text" class="form-control" id="account_holder" name="account_holder" placeholder="">
+                @error('account_holder')
+                <p>Enter name</p>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="name">Recipient's account number</label>
                 <input type="text" class="form-control" id="account_number" name="account_number" placeholder="">
+                
             </div>
             <div class="form-group">
                 <label for="name">Amount</label>

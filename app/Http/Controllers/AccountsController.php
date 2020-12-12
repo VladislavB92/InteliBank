@@ -51,6 +51,12 @@ class AccountsController extends Controller
     {
         $paymentData = $request->post();
 
+        $this->validate($request, [
+            'account_holder' => 'required',
+            'account_number' => 'exists:accounts|required',
+            'amount' => 'required|numeric'
+        ]);
+
         $recipientsAccountCurrency = $account
             ->select('currency')
             ->where('account_number', $paymentData['account_number'])
@@ -81,7 +87,6 @@ class AccountsController extends Controller
     public function update(Request $request, Account $account)
     {
         $this->authorize('update', $account);
-
         $loggedUser = auth()->user()->name;
 
         event(new PaymentMade($account, $request));
