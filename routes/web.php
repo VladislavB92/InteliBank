@@ -32,6 +32,6 @@ Route::get('/accounts/{account:account_number}/payment', 'AccountsController@edi
     ->middleware('auth')
     ->name('payment');
 
-    Route::post('/accounts/{account:account_number}/payment/confirmation', 'AccountsController@collectTransactionData')
+Route::post('/accounts/{account:account_number}/payment/confirmation', 'AccountsController@collectTransactionData')
     ->middleware('auth')
     ->name('confirmation');

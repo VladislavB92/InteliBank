@@ -52,8 +52,8 @@ class AccountsController extends Controller
         $paymentData = $request->post();
 
         $this->validate($request, [
-            'account_holder' => 'required',
-            'account_number' => 'exists:accounts|required',
+            'account_holder' => 'required|different:account_holder',
+            'account_number' => 'exists:accounts|required|different:account_number',
             'amount' => 'required|numeric'
         ]);
 
@@ -92,6 +92,6 @@ class AccountsController extends Controller
         event(new PaymentMade($account, $request));
         event(new TransactionSaved($account, $request));
 
-        return view('user.account.details', ['account' => $account, 'loggedUser' => $loggedUser]);
+        return redirect()->route('details', $account->account_number);
     }
 }
