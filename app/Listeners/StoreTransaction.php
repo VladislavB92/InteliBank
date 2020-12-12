@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\PaymentMade;
+use App\Events\TransactionSaved;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 
 class StoreTransaction
 {
-    public function handle(PaymentMade $event)
+    public function handle(TransactionSaved $event)
     {
         $sendersData = $event->senderData;
         $recipientsData = $event->request->post();

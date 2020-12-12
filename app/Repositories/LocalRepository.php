@@ -13,7 +13,8 @@ class LocalRepository
 
     function getBySymbol(string $symbol)
     {
-        $currency = Currency::all();
-        return $currency->find($symbol)->rate;
+        $currency = Currency::find($symbol);
+
+        return $currency->rate;
     }
 }

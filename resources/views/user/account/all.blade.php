@@ -37,7 +37,7 @@
                         <tr>
                             <td><a href="{{ route('details', ['account' => $account]) }}">{{ $account->account_number }}</a></td>
                             <td>{{ $account->currency }}</td>
-                            <td>{{ round( (float) $account->amount, 2) }}</td>
+                            <td>{{ sprintf("%.2f", $account->amount) }}</td>
                         </tr>
                         @endforeach
                     </tbody>

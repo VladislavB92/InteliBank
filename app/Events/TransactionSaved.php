@@ -9,16 +9,16 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Http\Request;
 use App\Models\Account;
 
-class PaymentMade
+class TransactionSaved
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public Account $account;
+    public Account $senderData;
     public Request $request;
 
-    public function __construct(Account $account, Request $request)
+    public function __construct(Account $senderData, Request $request)
     {
-        $this->account = $account;
+        $this->senderData = $senderData;
         $this->request = $request;
     }
 

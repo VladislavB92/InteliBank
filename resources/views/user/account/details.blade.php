@@ -24,7 +24,7 @@
         <div class="container w-full md:w-5/5 xl:w-5/5 mx-auto px-2">
             <h1>Account holder: {{ $account->account_holder }}</h1>
             <h2>Account number: {{ $account->account_number }}</h2>
-            <h2>Avalaible account balance: {{ $account->currency }} {{ round($account->amount, 2) }}</h2>
+            <h2>Avalaible account balance: {{ $account->currency }} {{ sprintf("%.2f", $account->amount) }}</h2>
             <a href="{{ route('payment', ['account' => $account]) }}">Make payment</a>
             <div id='recipients' class="block md:flex items-center justify-between">
                 <table id="example">
@@ -46,7 +46,7 @@
                         @foreach($account->outgoingTransaction as $transaction)
                         <tr>
                             <td>{{ $transaction->id }}</td>
-                            <td>@if($loggedUser == $transaction->senders_name)
+                            <td>@if($loggedUser === $transaction->senders_name)
                                 Outgoing payment
                                 @elseif($loggedUser == $transaction->recipients_name)
                                 Incoming payment
@@ -54,31 +54,14 @@
                             <td>{{ $transaction->senders_name }}</td>
                             <td>{{ $transaction->senders_account }}</td>
                             <td>{{ $transaction->senders_account_currency }}</td>
-                            <td>{{ $transaction->amount }}</td>
+                            <td>{{ sprintf("%.2f", $transaction->amount) }}</td>
                             <td>{{ $transaction->recipients_name }}</td>
                             <td>{{ $transaction->recipients_account }}</td>
                             <td>{{ $transaction->recipients_account_currency }}</td>
                             <td>{{ $transaction->created_at }}</td>
                         </tr>
                         @endforeach
-                        @foreach($account->incomingTransaction as $transaction)
-                        <tr>
-                            <td>{{ $transaction->id }}</td>
-                            <td>@if($loggedUser == $transaction->senders_name)
-                                Outgoing payment
-                                @elseif($loggedUser == $transaction->recipients_name)
-                                Incoming payment
-                                @endif</td>
-                            <td>{{ $transaction->senders_name }}</td>
-                            <td>{{ $transaction->senders_account }}</td>
-                            <td>{{ $transaction->senders_account_currency }}</td>
-                            <td>{{ $transaction->amount }}</td>
-                            <td>{{ $transaction->recipients_name }}</td>
-                            <td>{{ $transaction->recipients_account }}</td>
-                            <td>{{ $transaction->recipients_account_currency }}</td>
-                            <td>{{ $transaction->created_at }}</td>
-                        </tr>
-                        @endforeach
+
                     </tbody>
                 </table>
             </div>

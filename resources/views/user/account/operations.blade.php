@@ -9,11 +9,11 @@
         <div>
             <h1>Account holder: {{ $account->account_holder }}</h1>
             <h2>Account number: {{ $account->account_number }}</h2>
-            <h2>Avalaible account balance: {{ $account->currency }} {{ $account->amount }}</h2>
+            <h2>Avalaible account balance: {{ $account->currency }} {{ sprintf("%.2f", $account->amount) }}</h2>
         </div><br>
-        <form method="post" action="{{ route('accounts.update', ['account' => $account]) }}">
+        <form method="post" action="{{ route('confirmation', ['account' => $account]) }}">
             @csrf
-            @method('PUT')
+            @method('POST')
             <div class="form-group">
                 <label for="name">Recipient's name</label>
                 <input type="text" class="form-control" id="account_holder" name="account_holder" placeholder="">
@@ -32,5 +32,5 @@
         </form>
 
     </div>
-    </div>
+
 </x-app-layout>

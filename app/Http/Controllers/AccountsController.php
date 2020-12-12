@@ -4,26 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Account;
-use App\Events\PaymentMade;
+use App\Events\TransactionSaved;
 use App\Repositories\LocalRepository;
 use App\Services\CurrencyRateService;
+use App\Events\PaymentMade;
 
 class AccountsController extends Controller
 {
     public LocalRepository $currenciesRepository;
-    public CurrencyRateService $currencyRateService;
 
     public function __construct(LocalRepository $currenciesRepository)
     {
         $this->middleware('auth');
         $this->currenciesRepository = $currenciesRepository;
-        $this->currencyRateService = new CurrencyRateService();
     }
 
     public function index()
     {
         $user = auth()->user();
-
         $accounts = (new Account)->where('account_holder', $user->name)->get();
 
         return view('user.account.all', ['accounts' => $accounts]);
@@ -35,12 +33,11 @@ class AccountsController extends Controller
 
         $account->load('outgoingTransaction');
         $account->outgoingTransaction();
-
         $account->load('incomingTransaction');
         $account->incomingTransaction();
 
         $loggedUser = auth()->user()->name;
-
+        
         return view('user.account.details', ['account' => $account, 'loggedUser' => $loggedUser]);
     }
 
@@ -51,37 +48,45 @@ class AccountsController extends Controller
         return view('user.account.operations', ['account' => $account]);
     }
 
-    public function update(Request $request, Account $account)
+    public function collectTransactionData(Request $request, Account $account)
     {
-        $this->authorize('update', $account);
-        $loggedUser = auth()->user()->name;
-
         $paymentData = $request->post();
-
-        $sendersAccountCurrency = $account->currency;
-
-        $recipientsName = $paymentData['account_holder'];
-        $recipientsAccountNumber = $paymentData['account_number'];
 
         $recipientsAccountCurrency = $account
             ->select('currency')
-            ->where('account_number',  $recipientsAccountNumber)
+            ->where('account_number', $paymentData['account_number'])
             ->get()[0]->currency;
 
-        if ($sendersAccountCurrency !== $recipientsAccountCurrency) {
-            $convertedAmount =
-                $paymentData['amount'] /
-                $this->currenciesRepository->getBySymbol($sendersAccountCurrency);
+        if ($account->currency === $recipientsAccountCurrency) {
+            $rate = 0;
+            $convertedAmount = 0;
+        } elseif ($account->currency !== $recipientsAccountCurrency && $account->currency === 'EUR') {
+            $rate = $this->currenciesRepository->getBySymbol($recipientsAccountCurrency);
+            $convertedAmount = $paymentData['amount'] * $rate;
+        } elseif ($account->currency !== $recipientsAccountCurrency && $recipientsAccountCurrency === 'EUR') {
+            $rate = 1 / $this->currenciesRepository->getBySymbol($account->currency);
+            $convertedAmount = $paymentData['amount'] * $rate;
         }
 
-        $account
-            ->where(['account_holder' => $recipientsName, 'account_number' => $recipientsAccountNumber])
-            ->increment('amount', $convertedAmount);
+        return view('user.account.confirmation', [
+            'account' => $account,
+            'recipientsName' => $paymentData['account_holder'],
+            'sendersCurrency' => $account->currency,
+            'paymentData' => $paymentData,
+            'recipientsCurrency' => $recipientsAccountCurrency,
+            'rate' => $rate,
+            'convertedAmount' => $convertedAmount
+        ]);
+    }
 
-        $account
-            ->decrement('amount', $paymentData['amount']);
+    public function update(Request $request, Account $account)
+    {
+        $this->authorize('update', $account);
+
+        $loggedUser = auth()->user()->name;
 
         event(new PaymentMade($account, $request));
+        event(new TransactionSaved($account, $request));
 
         return view('user.account.details', ['account' => $account, 'loggedUser' => $loggedUser]);
     }
