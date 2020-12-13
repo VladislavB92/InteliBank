@@ -14,5 +14,8 @@ Extensive use of events, services, repositories and scheduled cron jobs.
 ## Acount details
 ![](intelibank3.png)
 
+## Recipient's details screen
+![](intelibank5.png)
+
 ## Payment overview
 ![](intelibank4.png)
