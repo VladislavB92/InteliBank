@@ -32,6 +32,7 @@
             <button class="border border-gray-700 bg-gray-700 text-white rounded-md px-4 py-2 m-2 
             transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
             onclick="window.location.href='{{ route('payment', ['account' => $account]) }}'">Make payment</button>
+            {{ dd($account) }}
             <div id='recipients' class="block md:flex items-center justify-between">
                 <table id="example" class="table-auto">
                     <thead>
@@ -52,11 +53,21 @@
                         @foreach($account->outgoingTransaction as $transaction)
                         <tr>
                             <td>{{ $transaction->id }}</td>
-                            <td>@if($loggedUser === $transaction->senders_name)
-                                Outgoing payment
-                                @elseif($loggedUser == $transaction->recipients_name)
-                                Incoming payment
-                                @endif</td>
+                            <td>Outgoing payment</td>
+                            <td>{{ $transaction->senders_name }}</td>
+                            <td>{{ $transaction->senders_account }}</td>
+                            <td>{{ $transaction->senders_account_currency }}</td>
+                            <td>{{ sprintf("%.2f", $transaction->amount) }}</td>
+                            <td>{{ $transaction->recipients_name }}</td>
+                            <td>{{ $transaction->recipients_account }}</td>
+                            <td>{{ $transaction->recipients_account_currency }}</td>
+                            <td>{{ $transaction->created_at }}</td>
+                        </tr>
+                        @endforeach
+                        @foreach($account->incomingTransaction as $transaction)
+                        <tr>
+                            <td>{{ $transaction->id }}</td>
+                            <td>Incoming payment</td>
                             <td>{{ $transaction->senders_name }}</td>
                             <td>{{ $transaction->senders_account }}</td>
                             <td>{{ $transaction->senders_account_currency }}</td>
